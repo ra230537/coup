@@ -20,9 +20,6 @@ class Player:
     name: str = ''
     def __init__(self, name):
         self.name = name
-
-    def add_cards(self, cards: List['Character']):
-        self.cards = cards
     
     def stealed_by_captain(self, captain: Player) -> None:
         self.coins -= 2

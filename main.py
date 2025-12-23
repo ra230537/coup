@@ -19,7 +19,5 @@ async def root():
     duke = Duke(player1)
     captain = Captain(player2)
     contessa = Contessa(player2)
-    player1.add_cards(cards=[assassin, duke])
-    player2.add_cards(cards=[captain, contessa])
     # precisamos acessar o campitão através do seu jogador e não diretamente
     captain.hability(player1)

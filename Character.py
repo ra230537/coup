@@ -8,12 +8,16 @@ import logging
 
 logger = logging.getLogger()
 class Character(ABC):
-    identity: str = uuid.uuid4()
-    state: States = States.IN_DECK
+    identity: str
+    state: States
     player: Player
 
     def __init__(self, player: Player):
         self.player = player
+        self.identity = str(uuid.uuid4())
+        self.state = States.IN_DECK
+        if self not in player.cards:
+            player.cards.append(self)
 
     @abstractmethod
     def hability(self) -> str:
