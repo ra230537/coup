@@ -1,6 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from Actions import ActionType
+from Position import Position
 from Player import Player
 from State import States
 import uuid
@@ -11,6 +12,7 @@ class Character(ABC):
     identity: str
     state: States
     player: Player
+    position: Position
 
     def __init__(self, player: Player):
         self.player = player
@@ -28,23 +30,29 @@ class Character(ABC):
         raise NotImplemented
     
     def income(self) -> None:
-        self.coins += 1
-        return (f'Personagem está recebendo 1 moeda, ficando com {self.coins} moedas')
+        self.player.coins += 1
+        logger.info(f'O jogador {self.player.name} está recebendo 1 moeda, ficando com {self.player.coins} moedas')
     
     def foreign_aid(self) -> None:
-        self.coins += 2
-        return (f'Personagem está recebendo 2 moedas, ficando com {self.coins} moedas')
+        self.player.coins += 2
+        logger.info(f'O jogador {self.player.name} está recebendo 2 moedas, ficando com {self.player.coins} moedas')
     
-    def coup(self) -> None:
-        self.coins -= 7
-        return (f'Personagem está gastando 7 moedas, restando {self.coins} moedas')
+    def coup(self, target: Player) -> None:
+        if not self.can_coup():
+            raise PermissionError('O jogador não tem moedas o suficiente para executar o golpe de estado')
+        self.player.coins -= 7
+        deposed_card = target.deposed()
+        logger.info(f'O jogador {self.player.name} deu um golpe de estado em {target.name}, eliminado um {deposed_card.position}, restando {self.player.coins} moedas')
+    
+    def can_coup(self):
+        return self.player.coins >= 7
 
     @abstractmethod
     def counter(self, target: Character) -> None:
         raise NotImplemented
 
     def action(self, action_type: ActionType) -> None:
-        if self.coins >= 10:
+        if self.player.coins >= 10:
             self.coup()
         match action_type:
             case ActionType.INCOME:
