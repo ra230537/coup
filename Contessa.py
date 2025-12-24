@@ -1,10 +1,15 @@
 from Assassin import Assassin
 from Character import Character
+from Position import Position
 
 
 class Contessa(Character):
 
-    def hability(self):
+    def __init__(self, player):
+        super().__init__(player)
+        self.position = Position.CONTESSA
+
+    def hability(self, target: Assassin):
         if not self.canUseHability():
             raise PermissionError('Não é possível executar essa ação agora')
         self.coins += 3

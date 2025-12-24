@@ -2,10 +2,15 @@ from __future__ import annotations
 import logging
 
 from Captain import Captain
+from Position import Position
 from Character import Character
 
 logger = logging.getLogger()
 class Ambassador(Character):
+
+    def __init__(self, player):
+        super().__init__(player)
+        self.position = Position.AMBASSADOR
 
     def hability(self):
         if not self.canUseHability():

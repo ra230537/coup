@@ -4,13 +4,14 @@ from Player import Player
 import logging
 
 from Player import Player
-
+from Position import Position
 logger = logging.getLogger()
 class Captain(Character):
     player: Player 
 
     def __init__(self, player):
         super().__init__(player)
+        self.position = Position.CAPTAIN
 
     def hability(self, target: Player):
         if not self.canUseHability():
